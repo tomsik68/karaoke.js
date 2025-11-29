@@ -11,6 +11,9 @@ export class Waveform {
     private waveformSrc: string | null;
     private waveformData: Float32Array<ArrayBuffer> | null;
 
+    private waveformFill: string;
+    private progressFill: string;
+
     constructor(eventBus: EventBus, domRegistry: DomRegistry) {
         this.eventBus = eventBus;
         this.waveToggleWrap = domRegistry.waveToggleWrap;
@@ -20,6 +23,9 @@ export class Waveform {
         this.waveformSrc = null;
         this.waveformData = null;
         this.waveformLoading = domRegistry.waveformLoading;
+        
+        this.waveformFill = "#039";
+        this.progressFill = "#af0";
 
         eventBus.register(EventType.AudioFileChange, (e: AppEvent) => {
             const event = e as AudioFileChange;
@@ -64,9 +70,9 @@ export class Waveform {
         const ctx = this.waveCanvas.getContext("2d") as CanvasRenderingContext2D;
 
         const x = progressPercentage * cssW;
-        ctx.fillStyle = "#0f0";
+        ctx.fillStyle = this.progressFill;
 
-        ctx.fillRect(x, 0, 1, cssH);
+        ctx.fillRect(x, 0, 2, cssH);
     }
 
     private async updateWaveform(newAudioFile: string) {
@@ -95,7 +101,7 @@ export class Waveform {
                 let max = 0;
                 for (let ch = 0; ch < channels; ch++) {
                     const data = audioBuf.getChannelData(ch);
-                    for (let j = start; j < end; j++) { const v = Math.abs(data[j]); if (v > max) max = v; }
+                    for (let j = start; j < end; j++) { const v = Math.abs(data[j]); max = Math.max(max, v); }
                 }
                 samples[i] = max;
             }
@@ -133,7 +139,7 @@ export class Waveform {
         const ctx = this.waveCanvas.getContext("2d") as CanvasRenderingContext2D;
 
         ctx.clearRect(0, 0, this.waveCanvas.width, this.waveCanvas.height);
-        ctx.fillStyle = "#bfbfbf";
+        ctx.fillStyle = this.waveformFill;
         ctx.beginPath();
         const N = this.waveformData.length;
         for (let i = 0; i < N; i++) {

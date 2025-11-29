@@ -17,19 +17,12 @@ export class AudioPlayer {
         this.waveform = new Waveform(eventBus, domRegistry);
         this.controllablePlayback = new ControllablePlayback(eventBus, domRegistry);
         
-        this.attachToDom(domRegistry);
-    }
-
-    attachToDom(domRegistry: DomRegistry) {
-        const document = window.document;
-        const player = this;
-
-        this.fileUpload.addEventListener("change", function () {
-            player.fileChange();
+        this.fileUpload.addEventListener("change", () => {
+            this.fileChange();
         });
         
         // ensure we register the last selected file if any is present
-        player.fileChange();
+        this.fileChange();
     }
 
     private fileChange() {

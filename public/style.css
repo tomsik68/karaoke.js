@@ -1,4 +1,4 @@
-#waveCanvas { width:100%; height:100px; display:block; border-radius:6px; background:transparent; }
+#waveCanvas { width:100%; height:100px; display:block; border-radius:6px; background:transparent; cursor: col-resize; }
 #viewport { max-height: calc(25 * 2.0em); overflow:auto; padding:8px 6px; }
 
     /* Word states */
