@@ -11,14 +11,9 @@ export class Application {
     private audioPlayer: AudioPlayer;
     private lyricsEditor: LyricsEditor;
 
-    constructor(eventBus: EventBus) {
+    constructor(eventBus: EventBus, domRegistry: DomRegistry) {
         this.eventBus = eventBus;
-        this.audioPlayer = new AudioPlayer(eventBus);
-        this.lyricsEditor = new LyricsEditor(eventBus);
-    }
-
-    attachToDom(domRegistry: DomRegistry) {
-        this.audioPlayer.attachToDom(domRegistry);
-        this.lyricsEditor.attachToDom(domRegistry);
+        this.audioPlayer = new AudioPlayer(eventBus, domRegistry);
+        this.lyricsEditor = new LyricsEditor(eventBus, domRegistry);
     }
 }

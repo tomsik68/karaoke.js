@@ -12,7 +12,6 @@
 .word.done { background:#27ae60; color:#fff; }       /* start+end */
 .word.playing { border:2px solid #fff; }            /* currently playing */
 
-
   body {
     background: #111;
     color: #eee;

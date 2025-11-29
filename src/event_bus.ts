@@ -1,7 +1,9 @@
 // Dead simple DDD-like event bus
 
 export enum EventType {
-    AudioTimeChange,
+    AudioPlayback,
+    UserSeekRequest,
+    AudioFileChange,
 }
 
 export class EventBus {
@@ -14,6 +16,7 @@ export class EventBus {
     }
     
     emit(event: AppEvent){
+        console.log(event);
         let type = event.type();
         if (!this.listeners.has(type)) {
             return;
@@ -22,7 +25,7 @@ export class EventBus {
         let listeners: Array<Listener> = this.listeners.get(type) || [];
 
         for (let listener of listeners) {
-            listener.eventOccurred(event);
+            listener(event);
         }
     }
     
@@ -41,23 +44,47 @@ export class EventBus {
         this.sealed = true;
     }
 }
-
-export interface Listener {
-    eventOccurred(event: AppEvent): void;
-}
+type Listener = (event: AppEvent) => void;
 
 export interface AppEvent {
     type(): EventType;
 }
 
-export class AudioTimeChangeEvent implements AppEvent {
+export class AudioPlaybackEvent implements AppEvent {
     public currentTime: number;
+    public duration: number;
     
-    constructor(currentTime: number) {
+    constructor(currentTime: number, duration: number) {
         this.currentTime = currentTime;
+        this.duration = duration;
     }
 
     type(): EventType {
-        return EventType.AudioTimeChange;
+        return EventType.AudioPlayback;
     }
+}
+
+export class UserSeekRequest implements AppEvent {
+    public seekPercentage: number;
+    
+    constructor(seekPercentage: number) {
+        this.seekPercentage = seekPercentage;
+    }
+
+    type(): EventType {
+        return EventType.UserSeekRequest;
+    }
+}
+
+export class AudioFileChange implements AppEvent {
+    public newAudioFile: string;
+    
+    constructor(newAudioFile: string) {
+        this.newAudioFile = newAudioFile;
+    }
+
+    type(): EventType {
+        return EventType.AudioFileChange;
+    }
+
 }

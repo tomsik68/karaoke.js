@@ -4,6 +4,7 @@ export class DomRegistry {
   audioFile: HTMLInputElement;
   speedSelect: HTMLSelectElement;
   audio: HTMLAudioElement;
+  waveToggleWrap: HTMLDivElement;
   waveToggle: HTMLInputElement;
   waveformWrap: HTMLDivElement;
   waveCanvas: HTMLCanvasElement;
@@ -24,6 +25,7 @@ export class DomRegistry {
     this.audioFile = root.getElementById("audioFile") as HTMLInputElement;
     this.speedSelect = root.getElementById("speedSelect") as HTMLSelectElement;
     this.audio = root.getElementById("audio") as HTMLAudioElement;
+    this.waveToggleWrap = root.getElementById("waveToggleWrap") as HTMLDivElement;
     this.waveToggle = root.getElementById("waveToggle") as HTMLInputElement;
     this.waveformWrap = root.getElementById("waveformWrap") as HTMLDivElement;
     this.waveCanvas = root.getElementById("waveCanvas") as HTMLCanvasElement;

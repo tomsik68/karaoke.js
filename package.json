@@ -7,7 +7,7 @@
   "scripts": {
     "build": "esbuild src/main.ts --bundle --outfile=public/main.js --sourcemap --target=es2020 --minify",
     "watch": "npm run build -- --watch",
-    "generate-dom": "ts-node scripts/generate-dom-registry.ts",
+    "generate-dom": "node scripts/generate-dom-registry.ts",
     "dev": "npm-run-all --parallel watch serve",
     "serve": "node scripts/dev-server.js"
   },

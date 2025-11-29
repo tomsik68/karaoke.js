@@ -9,18 +9,12 @@ export class LyricsEditor {
     private lyricsTextbox: HTMLTextAreaElement | null;
     private lyricsWordBoxesContainer: HTMLElement | null;
 
-    constructor(eventBus: EventBus) {
+    constructor(eventBus: EventBus, domRegistry: DomRegistry) {
         this.eventBus = eventBus;
         this.mode = LyricsMode.EditingText;
         
         this.lyricsTextbox = null;
         this.lyricsWordBoxesContainer = null;
-    }
-
-    attachToDom(domRegistry: DomRegistry) {
-        const document = window.document;
-        
-        let discardButton = domRegistry.lyricsTextDiscard;
     }
 }
 
