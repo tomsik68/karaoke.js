@@ -1,0 +1,63 @@
+#waveCanvas { width:100%; height:100px; display:block; border-radius:6px; background:transparent; }
+#viewport { max-height: calc(25 * 2.0em); overflow:auto; padding:8px 6px; }
+
+    /* Word states */
+.word { cursor: pointer; border: 2px solid black; display: inline-block; }
+.word.currentWord {
+    border: 2px solid red;
+}
+.word.none { background:#555; color:#ccc; }          /* no data */
+.word.startOnly { background:#2980b9; color:#fff; }  /* start only */
+.word.endOnly { background:#f39c12; color:#fff; }    /* end only */
+.word.done { background:#27ae60; color:#fff; }       /* start+end */
+.word.playing { border:2px solid #fff; }            /* currently playing */
+
+
+  body {
+    background: #111;
+    color: #eee;
+    font-family: sans-serif;
+    overflow: hidden;
+  }
+
+/* tiny dot loader (very low CPU) */
+.wave-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset;
+  user-select: none;
+  font-size: 0; /* hide any baseline */
+}
+
+/* dot */
+.wave-loading .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cfcfcf; /* neutral grey that fits your UI */
+  opacity: 0.25;
+  transform: translateY(0) scale(1);
+  animation: waveDot 900ms linear infinite;
+  will-change: transform, opacity;
+}
+
+/* stagger the dots */
+.wave-loading .dot:nth-child(1){ animation-delay: 0ms; }
+.wave-loading .dot:nth-child(2){ animation-delay: 150ms; }
+.wave-loading .dot:nth-child(3){ animation-delay: 300ms; }
+
+/* animation: small vertical bounce + fade to emulate DS-play */
+@keyframes waveDot {
+  0%   { transform: translateY(0) scale(1); opacity: 0.25; }
+  25%  { transform: translateY(-6px) scale(1.12); opacity: 1; }
+  50%  { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(0) scale(1); opacity: 0.25; }
+}
+
+/* optional smaller variant for tight places */
+.wave-loading.small .dot { width:6px; height:6px; }

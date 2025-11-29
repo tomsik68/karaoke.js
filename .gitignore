@@ -1,0 +1,4 @@
+node_modules
+legacy
+.pnpm-store
+public/main.js*

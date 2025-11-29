@@ -1,0 +1,27 @@
+{
+  "name": "karaoke.js",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --outfile=public/main.js --sourcemap --target=es2020 --minify",
+    "watch": "npm run build -- --watch",
+    "generate-dom": "ts-node scripts/generate-dom-registry.ts",
+    "dev": "npm-run-all --parallel watch serve",
+    "serve": "node scripts/dev-server.js"
+  },
+  "keywords": [],
+  "author": "Tomas Jasek",
+  "license": "MIT",
+  "packageManager": "pnpm@10.23.0",
+  "devDependencies": {
+    "@types/jsdom": "^27.0.0",
+    "chokidar": "^5.0.0",
+    "esbuild": "^0.27.0",
+    "jsdom": "^27.2.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.3"
+  }
+}
