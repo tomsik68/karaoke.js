@@ -1,6 +1,6 @@
 import { ControllablePlayback } from "./controllable_playback";
 import { DomRegistry } from "./dom_registry";
-import { AppEvent, AudioFileChange, AudioPlaybackEvent, EventBus, EventType, UserSeekRequest } from "./event_bus";
+import { AudioFileChange, EventBus, } from "./event_bus";
 import { Waveform } from "./waveform";
 
 export class AudioPlayer {

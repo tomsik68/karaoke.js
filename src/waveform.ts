@@ -1,5 +1,5 @@
 import { DomRegistry } from "./dom_registry";
-import { AppEvent, AudioFileChange, AudioPlaybackEvent, EventBus, EventType, UserSeekRequest } from "./event_bus";
+import { AudioFileChange, AudioPlaybackEvent, EventBus, UserSeekRequest } from "./event_bus";
 
 export class Waveform {
     private eventBus: EventBus;
@@ -27,14 +27,12 @@ export class Waveform {
         this.waveformFill = "#039";
         this.progressFill = "#af0";
 
-        eventBus.register(EventType.AudioFileChange, (e: AppEvent) => {
-            const event = e as AudioFileChange;
+        eventBus.register(AudioFileChange.prototype, (e: AudioFileChange) => {
             this.waveToggleWrap.style.display = 'block';
-            (async () => await this.updateWaveform(event.newAudioFile))();
+            (async () => await this.updateWaveform(e.newAudioFile))();
         });
         
-        eventBus.register(EventType.AudioPlayback, (param: AppEvent) => {
-            const e = param as AudioPlaybackEvent;
+        eventBus.register(AudioPlaybackEvent.prototype, (e: AudioPlaybackEvent) => {
             // update progress indicator, re-render waveform canvas
             this.drawWave();
             this.drawPlaybackIndicator(e.currentTime / e.duration);

@@ -1,5 +1,5 @@
 import { DomRegistry } from "./dom_registry";
-import { AppEvent, AudioFileChange, AudioPlaybackEvent, EventBus, EventType, UserSeekRequest } from "./event_bus";
+import { AudioFileChange, AudioPlaybackEvent, EventBus, UserSeekRequest } from "./event_bus";
 
 export class ControllablePlayback {
     private eventBus: EventBus;
@@ -35,16 +35,13 @@ export class ControllablePlayback {
             this.onAudioTimeChanged();
         });
         
-        this.eventBus.register(EventType.AudioFileChange, (e: AppEvent) => {
-            const event = e as AudioFileChange;
-            
-            this.audio.src = event.newAudioFile;
+        this.eventBus.register(AudioFileChange.prototype, (e: AudioFileChange) => {
+            this.audio.src = e.newAudioFile;
             this.applyPlaybackSpeed();
         });
 
-        this.eventBus.register(EventType.UserSeekRequest, (e: AppEvent) => {
-            const event = e as UserSeekRequest;
-            this.audio.currentTime = event.seekPercentage * this.audio.duration;
+        this.eventBus.register(UserSeekRequest.prototype, (e: UserSeekRequest) => {
+            this.audio.currentTime = e.seekPercentage * this.audio.duration;
         });
     }
 

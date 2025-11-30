@@ -1,13 +1,13 @@
 // Dead simple DDD-like event bus
 
-export enum EventType {
+enum EventType {
     AudioPlayback,
     UserSeekRequest,
     AudioFileChange,
 }
 
 export class EventBus {
-    private listeners: Map<EventType, Array<Listener>>;
+    private listeners: Map<EventType, Array<Listener<AppEvent>>>;
     private sealed: boolean;
 
     constructor(){
@@ -15,21 +15,22 @@ export class EventBus {
         this.sealed = false;
     }
     
-    emit(event: AppEvent){
+    emit<E extends AppEvent>(event: E){
         console.log(event);
         let type = event.type();
         if (!this.listeners.has(type)) {
             return;
         }
 
-        let listeners: Array<Listener> = this.listeners.get(type) || [];
+        let listeners: Array<Listener<E>> = this.listeners.get(type) || [];
 
         for (let listener of listeners) {
             listener(event);
         }
     }
     
-    register(eventType: EventType, listener: Listener) {
+    register<E extends AppEvent>(prototype: E, listener: Listener<E>) {
+        const eventType = prototype.type();
         if (this.sealed) {
             throw new Error("Blocked attempt to register listener to a sealed event bus");
         }
@@ -37,14 +38,14 @@ export class EventBus {
         if (!this.listeners.has(eventType))
             this.listeners.set(eventType, []);
             
-        this.listeners.get(eventType)?.push(listener);
+        this.listeners.get(eventType)?.push(listener as Listener<AppEvent>);
     }
     
     seal() {
         this.sealed = true;
     }
 }
-type Listener = (event: AppEvent) => void;
+type Listener<E extends AppEvent> = (event: E) => void;
 
 export interface AppEvent {
     type(): EventType;
