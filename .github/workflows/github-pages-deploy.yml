@@ -40,9 +40,14 @@ jobs:
       
           push: never
           runCmd: pnpm build
+      - name: Upload static files as artifact
+        id: deployment
+        uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+        with:
+          path: public/
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy GitHub Pages site
         uses: actions/deploy-pages@v4.0.5
-        with:
-          # GitHub token
-          token: # default is ${{ github.token }}
-          artifact_name: public
+        id: deployment
